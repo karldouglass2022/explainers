@@ -57,6 +57,35 @@ header {
   gap: 1rem;
 }
 
+
+/* NAV BAR */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.main-nav a {
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #ffffff;          /* white text in blue header */
+  font-weight: 500;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.main-nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Highlight the active page if desired */
+.main-nav a.active {
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
+
 /* Logo + text block */
 .brand-block {
   display: flex;
@@ -653,3 +682,4 @@ footer {
   font-size: 0.75rem;
   color: #777;
 }
+
