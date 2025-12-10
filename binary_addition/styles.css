@@ -1,0 +1,655 @@
+:root {
+  --delta-yellow: #FAB500;
+  --delta-blue: #222C7B;
+  --delta-purple: #87022E;
+  --delta-black: #000000;
+  --bg-light: #f5f6fb;
+  --border-radius: 14px;
+  --shadow-soft: 0 8px 20px rgba(0,0,0,0.08);
+
+  /* NEW: scaling for the binary table */
+  --bit-font-size: 1.4rem;      /* was ~1rem */
+  --bit-cell-size: 42px;        /* was 30–32px */
+  --label-font-size: 1rem;      /* row labels A, B, A+B, Carry */
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Century Gothic", Arial, sans-serif;
+  background: var(--bg-light);
+  color: var(--delta-black);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: var(--delta-blue);
+  color: white;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Logo + text block */
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Light-blue pill behind the logo */
+.brand-logo-pill {
+  background: #eef2ff;              /* lighter blue for contrast */
+  border-radius: 999px;             /* pill shape */
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  max-width: 260px;                 /* stops it getting silly wide */
+  overflow: hidden;                 /* hide excess width of banner image */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* The actual image */
+.brand-logo {
+  height: 32px;                     /* keeps header nice and compact */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Auto-shrink on smaller screens */
+@media (max-width: 900px) {
+  .brand-logo {
+    height: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .brand-logo {
+    height: 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-logo {
+    height: 20px;
+  }
+}
+
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, var(--delta-yellow) 0 40%, var(--delta-purple) 40% 70%, var(--delta-blue) 70% 100%);
+  border-radius: 4px;
+}
+
+
+.brand-text {
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.brand-text span {
+  display: block;
+  font-weight: normal;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: normal;
+  text-align: right;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.app-shell {
+  max-width: 1100px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  header h1 {
+    text-align: left;
+  }
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+h2 {
+  margin-top: 0;
+  color: var(--delta-blue);
+  font-size: 1.1rem;
+}
+
+.controls {
+  border-radius: var(--border-radius);
+  border: 1px solid #dde0f0;
+  padding: 1rem;
+  background: #fafbff;
+  margin-bottom: 1rem;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1.25rem;
+  align-items: end;
+}
+
+.controls-grid > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  /* ensures label/input/note distribute evenly */
+  min-height: 120px;               /* keeps both blocks identical height */
+}
+
+
+@media (max-width: 600px) {
+  .controls-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+label {
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #555;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid #ccd0e5;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border-color: var(--delta-blue);
+  box-shadow: 0 0 0 2px rgba(34,44,123,0.15);
+}
+
+.small-note {
+  min-height: 1.2rem;  /* ensures both A and B notes use equal vertical space */
+  display: flex;
+  align-items: center;
+}
+
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+button {
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: transform 0.05s ease-out, box-shadow 0.1s ease-out, background 0.1s ease-out, opacity 0.1s;
+  white-space: nowrap;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--delta-yellow);
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(250,181,0,0.35);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(250,181,0,0.4);
+}
+
+.btn-secondary {
+  background: #eef0f9;
+  color: var(--delta-blue);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e0e3f5;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #666;
+  border: 1px dashed #ccd0e5;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: #f1f2fb;
+}
+
+.binary-display {
+  border-radius: var(--border-radius);
+  border: 1px solid #e0e3f5;
+  padding: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.binary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.45rem;
+}
+
+.sum-row {
+  margin-top: 0.6rem;
+  margin-bottom: 0.2rem;
+}
+
+.row-label {
+  min-width: 4.5rem;
+  font-size: var(--label-font-size);  /* was 0.85rem */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #555;
+}
+
+
+.bits {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, var(--bit-cell-size)); /* was 30px */
+  gap: 0.2rem;                                       /* tiny bump for clarity */
+  justify-content: end;
+  flex: 1;
+}
+
+.bit-cell {
+  border-radius: 6px;
+  border: 1px solid #dde0f0;
+  padding: 0.35rem 0;                /* slightly taller */
+  text-align: center;
+  font-weight: bold;
+  font-size: var(--bit-font-size);   /* bigger text */
+  min-height: var(--bit-cell-size);  /* match size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+
+.bit-cell.active {
+  border-color: var(--delta-purple);
+  box-shadow: 0 0 0 2px rgba(135,2,46,0.25);
+}
+
+.bit-cell.result-filled {
+  background: #fdf4d6;
+  border-color: var(--delta-yellow);
+}
+
+/* Sum bits area: OVF + lines + bits */
+.sum-bits-area {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.bits-and-lines {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.sum-line {
+  height: 2px;
+  background: var(--delta-blue);
+  margin: 0.1rem 0;
+}
+
+/* Carry row directly under bits */
+.carry-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, var(--bit-cell-size));
+  gap: 0.2rem;
+  justify-content: end;
+  flex: 1;
+}
+
+.carry-badge {
+  width: var(--bit-cell-size);
+  height: 26px;              /* a bit taller than before */
+  border-radius: 999px;
+  border: 1px solid #dde0f0;
+  font-size: 1rem;           /* larger carry text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6fb;
+  opacity: 0.4;
+  position: relative;
+  overflow: visible;
+}
+
+
+.carry-badge.active {
+  background: #fde7f0;
+  border-color: var(--delta-purple);
+  opacity: 1;
+  font-weight: bold;
+  color: var(--delta-purple);
+}
+
+/* Arrow animation for the newly created carry */
+.carry-badge.carry-new::after {
+  content: "↑";
+  position: absolute;
+  top: -14px;
+  font-size: 1rem;           /* bigger arrow */
+  animation: carry-flow 0.6s ease-out infinite alternate;
+}
+
+
+@keyframes carry-flow {
+  from {
+    transform: translateY(2px);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateY(-2px);
+    opacity: 1;
+  }
+}
+
+/* Overflow pill + OVF bit */
+.overflow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--delta-purple);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  margin-left: 0.25rem;
+}
+
+.overflow-pill span {
+  background: rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.overflow-bit-cell {
+  width: calc(var(--bit-cell-size) + 6px);
+  min-height: calc(var(--bit-cell-size) + 6px);
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1.5px dashed var(--delta-purple);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fde7f0;
+  color: var(--delta-purple);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+}
+
+.overflow-bit-cell.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.overflow-bit-value {
+font-size: var(--bit-font-size);  
+font-weight: bold;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.overflow-bit-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+}
+
+/* Explanation / teacher panel */
+.explanation-card {
+  border-radius: var(--border-radius);
+  border: 1px solid #e0e3f5;
+  padding: 1rem;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.step-index {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+}
+
+.step-index strong {
+  color: var(--delta-blue);
+}
+
+.explanation-main {
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.mini-equation {
+  font-family: "Courier New", monospace;
+  background: #f5f6fb;
+  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+.summary-panel {
+  border-top: 1px solid #eceff7;
+  padding-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-panel strong {
+  color: var(--delta-blue);
+}
+
+/* Teacher mode toggle */
+.teacher-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.toggle-label input {
+  display: none;
+}
+
+.toggle-pill {
+  width: 40px;
+  height: 20px;
+  border-radius: 999px;
+  background: #dde0f0;
+  position: relative;
+  transition: background 0.15s ease-out;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease-out;
+}
+
+.toggle-label input:checked + .toggle-pill {
+  background: var(--delta-yellow);
+}
+
+.toggle-label input:checked + .toggle-pill .toggle-thumb {
+  transform: translateX(20px);
+}
+
+.toggle-text {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Working panel (GCSE-style) */
+.working-panel {
+  margin-top: 0.6rem;
+  border-radius: 10px;
+  border: 1px dashed #dde0f0;
+  padding: 0.6rem 0.7rem;
+  background: #fafbff;
+  font-size: 0.8rem;
+  display: none; /* shown in teacher mode */
+}
+
+.working-title {
+  font-weight: bold;
+  color: var(--delta-blue);
+  margin-bottom: 0.4rem;
+}
+
+.working-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.working-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: baseline;
+}
+
+.working-row-bit {
+  font-weight: bold;
+  min-width: 90px;
+}
+
+.working-row-detail {
+  flex: 1;
+}
+
+.working-note {
+  margin-top: 0.4rem;
+  color: #777;
+  font-size: 0.75rem;
+}
+
+footer {
+  text-align: center;
+  padding: 0.75rem 1rem 1.1rem;
+  font-size: 0.75rem;
+  color: #777;
+}
