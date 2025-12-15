@@ -2,181 +2,245 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>8-bit Binary Addition – Interactive Demo</title>
+  <title>Binary Explainers – Welcome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="styles.css" />
-
-  		<!-- NEW: Navigation bar -->
-    <nav class="main-nav">
-      <a href="./binary-addition/index.html">Binary Addition</a>
-      <a href="denary-binary-hex.html">Denary → Binary → Hex</a>
-      <a href="hex-to-binary.html">Hex → Binary</a>
-      <a href="about.html">About</a>
-    </nav>
+  <link rel="stylesheet" href="binary-addition.css" />
 </head>
 <body>
   <div class="page">
     <header>
       <div class="header-inner">
         <div class="brand-block">
-  <div class="brand-logo-pill">
-    <img src="logo.png" alt="Computing logo" class="brand-logo" />
-  </div>
-  <div class="brand-text">
-    DELTA Academies Trust
-    <span>Binary Addition Demo</span>
-  </div>
-</div>
+          <div class="brand-logo-pill">
+            <img src="logo.png" alt="Computing logo" class="brand-logo" />
+          </div>
+          <div class="brand-text">
+            DELTA Academies Trust
+            <span>GCSE Computer Science – Binary</span>
+          </div>
+        </div>
 
-        <h1>8-bit Binary Addition – Step-By-Step</h1>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-home active">Home</a>
+          <a href="binary-addition.html" class="nav-addition">Binary addition</a>
+          <a href="denary-binary-hex.html" class="nav-conversion">Denary / Binary / Hex</a>
+          <a href="binary-shift.html" class="nav-shift">Binary shifts</a>
+        </nav>
       </div>
     </header>
 
     <main>
-      <div class="app-shell">
-        <!-- LEFT: controls + visual -->
-        <section aria-label="Binary input and visualisation">
-          <h2>1. Choose two decimal numbers (0–255)</h2>
-          <div class="controls">
-            <div class="controls-grid">
-              <div>
-                <label for="inputA">Number A (decimal)</label>
-                <input id="inputA" type="number" min="0" max="255" value="25" />
-                <div class="small-note">Automatically converted to 8-bit binary.</div>
-              </div>
-              <div>
-                <label for="inputB">Number B (decimal)</label>
-                <input id="inputB" type="number" min="0" max="255" value="73" />
-                <div class="small-note">Try examples that cause an overflow &gt; 255.</div>
-              </div>
-            </div>
-            <div class="button-row">
-              <button type="button" class="btn-primary" id="btnStart">
-                ▶ Start / reset
-              </button>
-              <button type="button" class="btn-secondary" id="btnRandom">
-                🎲 Random pair
-              </button>
-              <button type="button" class="btn-ghost" id="btnOverflowExample">
-                ⚠ Overflow example
-              </button>
-            </div>
+      <div class="app-shell welcome-shell">
+        <!-- Compact intro card -->
+        <section class="welcome-intro" aria-label="Welcome">
+          <div class="welcome-intro-left">
+            <h1>Binary Explainers</h1>
+            <p>
+              Pick a tool below. Each one is interactive, GCSE-friendly, and designed to be
+              readable from the back of the room.
+            </p>
           </div>
-
-          <h2>2. Watch the binary addition happen</h2>
-          <div class="binary-display" aria-label="8-bit binary addition working">
-
-            <!-- A row -->
-            <div class="binary-row">
-              <div class="row-label">A</div>
-              <div class="bits" id="rowA"></div>
-            </div>
-
-            <!-- B row -->
-            <div class="binary-row">
-              <div class="row-label">B</div>
-              <div class="bits" id="rowB"></div>
-            </div>
-
-            <!-- Sum row with OVF bit + lines above/below 8 bits -->
-            <div class="binary-row sum-row">
-              <div class="row-label">
-                SUM
-                <span id="overflowPill" class="overflow-pill" style="display:none;">
-                  <span>!</span>
-                </span>
-              </div>
-
-              <div class="sum-bits-area">
-                <div class="overflow-bit-cell" id="overflowBitCell">
-                  <span class="overflow-bit-value"></span>
-                  <span class="overflow-bit-label">OVF</span>
-                </div>
-
-                <div class="bits-and-lines">
-                  <div class="sum-line"></div>
-                  <div class="bits" id="rowResult"></div>
-                  <div class="sum-line"></div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Carry row directly under the sum -->
-            <div class="binary-row">
-              <div class="row-label">Carry</div>
-              <div class="carry-row" id="carryRow" aria-hidden="true"></div>
-            </div>
-
+          <div class="welcome-intro-right">
+            <div class="welcome-pill">8-bit focus</div>
+            <div class="welcome-pill">Step-by-step</div>
+            <div class="welcome-pill">Classroom ready</div>
           </div>
-
-<div class="button-row" style="margin-top:0.8rem;">
-  <button type="button" class="btn-primary" id="btnNextStep">
-    ➜ Next bit
-  </button>
-  <button type="button" class="btn-secondary" id="btnAutoPlay">
-    ▶ Auto play
-  </button>
-  <button type="button" class="btn-ghost" id="btnPause">
-    ⏸ Pause
-  </button>
-  <button type="button" class="btn-ghost" id="btnInlineReset">
-    🔄 Reset
-  </button>
-</div>
-
         </section>
 
-        <!-- RIGHT: explanation -->
-        <section aria-label="Explanation of current step">
-          <h2>3. Explanation of each step</h2>
-          <div class="explanation-card">
-            <div class="step-header">
-              <div class="step-index" id="stepIndexLabel">
-                Ready to start. We always add from the <strong>right-most bit</strong> (least significant bit).
-              </div>
-              <div class="teacher-toggle">
-                <label class="toggle-label">
-                  <input type="checkbox" id="teacherModeToggle" />
-                  <span class="toggle-pill">
-                    <span class="toggle-thumb"></span>
-                  </span>
-                  <span class="toggle-text">Teacher mode</span>
-                </label>
-              </div>
+        <!-- Prominent tool cards -->
+        <section class="welcome-tools" aria-label="Explainer tools">
+          <article class="tool-card tool-card-addition">
+            <div class="tool-card-top">
+              <h2>Binary addition</h2>
+              <div class="tool-tag">Carry + overflow</div>
             </div>
-            <div class="explanation-main" id="explanationMain">
-              Enter two decimal numbers on the left and press
-              <strong>“Start / reset walkthrough”</strong>. Then use
-              <strong>“Next bit”</strong> to step through the 8-bit addition, including any carries.
-            </div>
+            <p>
+              Step through 8-bit addition bit-by-bit. See carries appear in the next column,
+              and identify overflow clearly.
+            </p>
+            <ul class="tool-points">
+              <li>Walkthrough controls</li>
+              <li>Carry and overflow explained</li>
+              <li>Teacher mode working</li>
+            </ul>
+            <a class="btn-primary tool-button" href="binary-addition.html">Open binary addition</a>
+          </article>
 
-            <div class="summary-panel" id="summaryPanel">
-              <div>Decimal: <strong id="summaryDecimal">25 + 73 = 98</strong></div>
-              <div>Binary: <strong id="summaryBinary">00011001 + 01001001 = 01100010</strong></div>
-              <div id="summaryOverflow">Overflow: <strong>No – result fits in 8 bits.</strong></div>
+          <article class="tool-card tool-card-convert">
+            <div class="tool-card-top">
+              <h2>Denary / Binary / Hex</h2>
+              <div class="tool-tag">Nibbles → hex</div>
             </div>
+            <p>
+              Convert values between denary, 8-bit binary, and 2-digit hex. Includes place values,
+              nibble denary steps, and A–F reference.
+            </p>
+            <ul class="tool-points">
+              <li>Live conversion</li>
+              <li>8421 nibble breakdown</li>
+              <li>Hex reference table</li>
+            </ul>
+            <a class="btn-primary tool-button" href="denary-binary-hex.html">Open conversion tool</a>
+          </article>
 
-            <!-- GCSE-style working panel, shown in Teacher mode -->
-            <div class="working-panel" id="workingPanel">
-              <div class="working-title">Working by column (teacher view)</div>
-              <div class="working-table" id="workingTable">
-                <!-- rows added dynamically -->
-              </div>
-              <div class="working-note">
-                Each row shows the full working for one bit position, like GCSE mark schemes.
-              </div>
+          <article class="tool-card tool-card-shift">
+            <div class="tool-card-top">
+              <h2>Binary shifts</h2>
+              <div class="tool-tag">×2 / ÷2</div>
             </div>
-          </div>
+            <p>
+              Visualise left and right shifts on 8-bit values. Shows lost bits, overflow, and
+              how the denary value changes.
+            </p>
+            <ul class="tool-points">
+              <li>Segment toggle left/right</li>
+              <li>Lost bits clearly shown</li>
+              <li>Denary before/after</li>
+            </ul>
+            <a class="btn-primary tool-button" href="binary-shift.html">Open binary shifts</a>
+          </article>
         </section>
       </div>
     </main>
 
     <footer>
-      This demo adds 8-bit numbers only (0–255). Values above 255 cause an overflow and need more than 8 bits.
+      GCSE Computer Science – binary number systems and operations. Use these tools in lessons or for independent revision.
     </footer>
   </div>
 
-  <script src="script.js" defer></script>
+  <!-- Page-specific styles for welcome only -->
+  <style>
+    .welcome-shell {
+      grid-template-columns: 1fr; /* override app-shell 2-col */
+      gap: 1.25rem;
+    }
+
+    /* Smaller intro card */
+    .welcome-intro {
+      background: white;
+      border: 1px solid #e0e3f5;
+      border-radius: var(--border-radius);
+      padding: 1rem 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .welcome-intro h1 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.4rem;
+      color: var(--delta-blue);
+    }
+
+    .welcome-intro p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #444;
+      max-width: 60ch;
+      line-height: 1.4;
+    }
+
+    .welcome-intro-right {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .welcome-pill {
+      background: #eef2ff;
+      color: var(--delta-blue);
+      border: 1px solid #cfd4f1;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Prominent tool cards */
+    .welcome-tools {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 980px) {
+      .welcome-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .welcome-tools { grid-template-columns: 1fr; }
+    }
+
+    .tool-card {
+      background: white;
+      border: 1px solid #e0e3f5;
+      border-radius: 18px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.05);
+      min-height: 340px;
+    }
+
+    .tool-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .tool-card h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--delta-blue);
+    }
+
+    .tool-tag {
+      background: #fde7f0;
+      color: var(--delta-purple);
+      border: 1px solid rgba(135, 2, 46, 0.25);
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .tool-card p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: #444;
+      line-height: 1.45;
+    }
+
+    .tool-points {
+      margin: 0.2rem 0 0.6rem;
+      padding-left: 1.1rem;
+      color: #555;
+      font-size: 0.86rem;
+    }
+
+    .tool-points li { margin: 0.15rem 0; }
+
+    .tool-button {
+      margin-top: auto;
+      align-self: flex-start;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+    }
+
+    /* Subtle accents per card (optional, helps scanning) */
+    .tool-card-addition { border-top: 6px solid var(--delta-purple); }
+    .tool-card-convert { border-top: 6px solid #f2b705; }
+    .tool-card-shift { border-top: 6px solid var(--delta-blue); }
+  </style>
 </body>
 </html>
-

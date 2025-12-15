@@ -1,0 +1,542 @@
+/* ================================
+   ROOT VARIABLES
+   ================================ */
+
+:root {
+  --delta-blue: #222c7b;
+  --delta-purple: #87022e;
+  --border-radius: 18px;
+  --bit-cell-size: 42px;
+  --bit-font-size: 1.1rem;
+}
+
+/* ================================
+   GLOBAL RESET
+   ================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #f6f7fb;
+  color: #222;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================================
+   HEADER + NAV
+   ================================ */
+
+header {
+  background: var(--delta-blue);
+  color: white;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-logo-pill {
+  background: #eef2ff;
+  border-radius: 999px;
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  max-width: 260px;
+}
+
+.brand-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-text {
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.brand-text span {
+  display: block;
+  font-weight: normal;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+/* NAV BAR */
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.main-nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.main-nav a.active {
+  background: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+}
+
+/* ================================
+   MAIN LAYOUT
+   ================================ */
+
+main {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.app-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--delta-blue);
+}
+
+/* ================================
+   CONTROLS
+   ================================ */
+
+/* Bigger, clearer denary input */
+.big-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid #cfd4f1;
+  background: #ffffff;
+  color: #111;
+  outline: none;
+}
+
+.big-number:focus {
+  border-color: var(--delta-blue);
+  box-shadow: 0 0 0 3px rgba(34, 44, 123, 0.18);
+}
+
+/* Segmented toggle (Left / Right) */
+.seg-toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #eef2ff;
+  border: 1px solid #cfd4f1;
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+  margin-top: 0.35rem;
+  user-select: none;
+  max-width: 360px;
+}
+
+/* Hide the real radios */
+.seg-toggle input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Toggle options */
+.seg-option {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.55rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--delta-blue);
+  cursor: pointer;
+  text-align: center;
+}
+
+/* The sliding highlight */
+.seg-indicator {
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: var(--delta-blue);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.10);
+  transform: translateX(0%);
+  transition: transform 0.18s ease;
+}
+
+/* Selected styles */
+#dirLeft:checked ~ .seg-indicator {
+  transform: translateX(0%);
+}
+#dirRight:checked ~ .seg-indicator {
+  transform: translateX(100%);
+}
+
+#dirLeft:checked + label,
+#dirRight:checked + label {
+  color: white;
+}
+
+/* Keyboard focus */
+.seg-toggle:focus-within {
+  box-shadow: 0 0 0 3px rgba(34, 44, 123, 0.18);
+}
+.controls-grid > div {
+  padding: 0.3rem 0;
+}
+
+
+.controls {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  border: 1px solid #e0e3f5;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input[type="number"],
+input[type="range"] {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.small-note {
+  font-size: 0.75rem;
+  color: #555;
+}
+
+/* ================================
+   BUTTONS
+   ================================ */
+
+.button-row {
+  margin-top: 0.8rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+button {
+  font-size: 0.9rem;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--delta-blue);
+  color: white;
+}
+
+.btn-secondary {
+  background: #e6e8f7;
+  color: var(--delta-blue);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--delta-blue);
+}
+
+/* ================================
+   BIT PANEL
+   ================================ */
+
+/* Make the binary shift panel match the width of the controls above */
+.shift-panel {
+  width: 100%;
+}
+
+
+.bit-panel-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.bit-panel {
+  background: white;
+  border-radius: var(--border-radius);
+  border: 1px solid #e0e3f5;
+  padding: 1rem;
+}
+
+/* Headings wrapper to align with bit rows */
+.bit-weights-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem; /* MUST match .binary-row gap */
+  margin-bottom: 0.3rem;
+}
+
+
+/* Headings, bits, denary rows all align */
+.bit-weights-row,
+.bits {
+  display: grid;
+  grid-template-columns: repeat(8, var(--bit-cell-size));
+  gap: 0.2rem;
+}
+
+/* Headings */
+.bit-weight {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* Rows */
+
+.binary-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+}
+
+.row-label {
+  width: 85px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Bit cells */
+
+.bit-cell {
+  width: var(--bit-cell-size);
+  height: var(--bit-cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid #dde0f0;
+  background: #fff;
+  font-weight: bold;
+  font-size: var(--bit-font-size);
+}
+
+/* ================================
+   SHIFT-SPECIFIC STYLES
+   ================================ */
+
+.shift-direction-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.shift-radio {
+  font-size: 0.9rem;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+/* Lost bits */
+
+#rowLost .bit-cell {
+  opacity: 0.35;
+}
+
+#rowLost .bit-cell.lost-bit {
+  opacity: 1;
+  background: #fde7f0;
+  border-color: var(--delta-purple);
+  color: var(--delta-purple);
+}
+
+/* Meta row under bits */
+
+.shift-meta-row {
+  margin-top: 0.6rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.shift-meta-row strong {
+  color: var(--delta-blue);
+}
+
+/* Pills */
+
+.overflow-pill {
+  margin-left: 0.3rem;
+  background: #fde7f0;
+  color: var(--delta-purple);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ================================
+   EXPLANATION PANEL
+   ================================ */
+
+.explanation-card {
+  background: white;
+  border-radius: var(--border-radius);
+  border: 1px solid #e0e3f5;
+  padding: 1rem;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.step-index {
+  font-weight: bold;
+}
+
+.explanation-main {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.summary-panel {
+  margin-top: 0.8rem;
+  background: #f6f7fb;
+  border-radius: 12px;
+  padding: 0.6rem;
+  font-size: 0.85rem;
+}
+
+/* ================================
+   FOOTER
+   ================================ */
+
+footer {
+  background: #eceef8;
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.75rem;
+  color: #444;
+}
+
+
+/* Widen the bit panel on the binary shift page only */
+.shift-panel {
+  min-width: 560px;
+}
+
+/* Shift status: pill + explanation text */
+.shift-status {
+  margin-top: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.shift-status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shift-status-text {
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* Optional: make the pill slightly larger for visibility */
+.overflow-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #fde7f0;
+  color: var(--delta-purple);
+  border: 1px solid rgba(135, 2, 46, 0.25);
+}
+/* Status messages sit UNDER the shifted row, aligned to bit grid */
+.shift-status-row {
+  margin-top: 0.35rem;
+  margin-left: calc(85px + 0.6rem); /* match .row-label width + binary-row gap */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.shift-status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shift-status-text {
+  font-size: 0.85rem;
+  color: #444;
+  line-height: 1.25;
+}

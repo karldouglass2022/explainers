@@ -17,20 +17,6 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Century Gothic", Arial, sans-serif;
-  background: var(--bg-light);
-  color: var(--delta-black);
-}
-
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
 /* ============== WELCOME PAGE LAYOUT ============== */
 
 .welcome-shell {
@@ -57,6 +43,91 @@ body {
   font-size: 0.98rem;
   line-height: 1.5;
 }
+
+/* HEADER + NAV BAR */
+
+header {
+  background: #222C7B; /* var(--delta-blue) if you've got CSS vars */
+  color: white;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-logo-pill {
+  background: #eef2ff;
+  border-radius: 999px;
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  max-width: 260px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.brand-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.brand-text {
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.brand-text span {
+  display: block;
+  font-weight: normal;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+/* NAV BAR */
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.main-nav a {
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.main-nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.main-nav a.active {
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: 600;
+}
+
 
 /* Grid of explainer cards */
 .welcome-grid {
@@ -118,8 +189,23 @@ body {
 
 
 
+* {
+  box-sizing: border-box;
+}
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Century Gothic", Arial, sans-serif;
+  background: var(--bg-light);
+  color: var(--delta-black);
+}
 
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 /* HEADER */
 

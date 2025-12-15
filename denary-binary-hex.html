@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Denary / Binary / Hex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="denary-binary-hex.css" />
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-inner">
+        <div class="brand-block">
+          <div class="brand-logo-pill">
+            <img src="logo.png" alt="Computing logo" class="brand-logo" />
+          </div>
+          <div class="brand-text">
+            DELTA Academies Trust
+            <span>GCSE Computer Science – Binary</span>
+          </div>
+        </div>
+
+        <!-- Shared nav bar -->
+        <nav class="main-nav">
+          <a href="index.html" class="nav-home">Home</a>
+          <a href="binary-addition.html" class="nav-addition">Binary addition</a>
+          <a href="denary-binary-hex.html" class="nav-conversion active">Denary / Binary / Hex</a>
+          <a href="binary-shift.html" class="nav-shift">Binary shifts</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="app-shell">
+        <!-- LEFT: inputs + visual table -->
+        <section aria-label="Number base inputs and visualisation">
+          <h2>1. Enter a number in any base</h2>
+          <div class="controls">
+            <div class="controls-grid controls-grid-bases">
+              <div>
+                <label for="denaryInput">Denary (decimal)</label>
+                <input id="denaryInput" type="number" min="0" max="255" value="42" />
+                <div class="small-note">Range: 0 to 255 (one byte).</div>
+              </div>
+              <div>
+                <label for="binaryInput">Binary (8 bits)</label>
+                <input id="binaryInput" type="text" maxlength="8" value="00101010" />
+                <div class="small-note">Only 0s and 1s, up to 8 bits.</div>
+              </div>
+              <div>
+                <label for="hexInput">Hex (2 digits)</label>
+                <input id="hexInput" type="text" maxlength="2" value="2A" />
+                <div class="small-note">0–9 and A–F, e.g. <strong>FF</strong>.</div>
+              </div>
+            </div>
+          </div>
+
+          <h2>2. Visualise the 8-bit value</h2>
+<div class="bit-panel-wrapper">
+<div class="bit-panel" aria-label="8-bit representation and hex nibbles">
+  <!-- Top: full 8-bit place values -->
+  
+  
+  <!-- Sub-heading -->
+  <div class="nibble-subheading">Binary vs Denary</div>
+  <div class="bit-weights-row" id="bitWeightsRow">
+    <!-- weights added by JS -->
+  </div>
+
+<!-- NEW: wrapper so we can put the total on the right -->
+<div class="bit-row-wrapper">
+  <div class="bit-row" id="bitRow">
+    <!-- bits added by JS -->
+  </div>
+  <div class="bit-row-total">
+    = <span id="bitRowTotal">0</span>
+  </div>
+</div>
+
+<!-- NEW: denary contributions for each bit -->
+<div class="bit-denary-row" id="bitDenaryRow">
+  <!-- per-bit denary values added by JS -->
+</div>
+
+  <!-- Bottom: nibble breakdown with 8421 headings and hex underneath -->
+<div class="nibble-panel">
+</div>
+  <!-- Sub-heading -->
+  <div class="nibble-subheading">Convert to hexadecimal</div>
+
+  <!-- 8421 headings for each nibble -->
+  <div class="nibble-row nibble-headings-row">
+    <div class="nibble-group">
+      <div class="nibble-heading">8</div>
+      <div class="nibble-heading">4</div>
+      <div class="nibble-heading">2</div>
+      <div class="nibble-heading">1</div>
+    </div>
+    <div class="nibble-group">
+      <div class="nibble-heading">8</div>
+      <div class="nibble-heading">4</div>
+      <div class="nibble-heading">2</div>
+      <div class="nibble-heading">1</div>
+    </div>
+  </div>
+
+  <!-- Binary nibbles (bits inserted via JS) -->
+  <div class="nibble-row nibble-bits-row">
+    <div class="nibble-group" id="highNibbleBits"></div>
+    <div class="nibble-group" id="lowNibbleBits"></div>
+  </div>
+
+  <!-- Denary nibble values -->
+  <div class="nibble-row nibble-denary-row">
+    <div class="nibble-group nibble-denary">
+      <span class="nibble-denary-label">Denary:</span>
+      <span class="nibble-denary-value" id="highNibbleDenary">0</span>
+    </div>
+    <div class="nibble-group nibble-denary">
+      <span class="nibble-denary-label">Denary:</span>
+      <span class="nibble-denary-value" id="lowNibbleDenary">0</span>
+    </div>
+  </div>
+
+  <!-- Hex nibble values -->
+<div class="nibble-row nibble-hex-row">
+  <div class="nibble-group nibble-hex">
+    <span class="nibble-hex-label">Hex:</span>
+    <span class="nibble-hex-value" id="highNibbleHex">0</span>
+  </div>
+  <div class="nibble-group nibble-hex">
+    <span class="nibble-hex-label">Hex:</span>
+    <span class="nibble-hex-value" id="lowNibbleHex">0</span>
+  </div>
+</div>
+
+<div class="hex-conversion-table">
+  <h3>Hex digit values</h3>
+  <div class="hex-table-grid">
+    <div class="hex-cell">A = 10</div>
+    <div class="hex-cell">B = 11</div>
+    <div class="hex-cell">C = 12</div>
+    <div class="hex-cell">D = 13</div>
+    <div class="hex-cell">E = 14</div>
+    <div class="hex-cell">F = 15</div>
+  </div>
+</div>
+
+
+
+        </section>
+
+        <!-- RIGHT: explanation -->
+        <section aria-label="Explanation of current conversion">
+          <h2>3. How this conversion works</h2>
+          <div class="explanation-card">
+            <div class="step-header">
+              <div class="step-index">
+                Currently explaining:
+                <span id="modeLabel">Denary → Binary &amp; Hex</span>
+              </div>
+            </div>
+
+            <div class="explanation-main" id="explanationMain">
+              Type a number into any of the boxes on the left. This panel will
+              show the steps for converting between denary, binary and hex for values
+              from 0 to 255.
+            </div>
+
+            <div class="working-panel" id="workingPanel">
+              <div class="working-title">Worked steps</div>
+              <div class="working-table" id="workingTable">
+                <!-- filled dynamically -->
+              </div>
+              <div class="working-note" id="workingNote">
+                These steps use methods seen in GCSE mark schemes, such as division
+                by 2 / 16 and place value tables.
+              </div>
+            </div>
+
+            <div class="summary-panel">
+              <div>Denary: <strong id="summaryDenary">42</strong></div>
+              <div>Binary (8 bits): <strong id="summaryBinary">00101010</strong></div>
+              <div>Hex (2 digits): <strong id="summaryHex">2A</strong></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      This tool uses values from 0 to 255 (8 bits). Hex values are shown with 2 digits; binary values with 8 bits.
+    </footer>
+  </div>
+
+  <script src="denary-binary-hex.js" defer></script>
+</body>
+</html>

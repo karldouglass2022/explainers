@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Binary Shifts – 8-bit Explainer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Reuse your main CSS so it matches the other pages -->
+  <link rel="stylesheet" href="binary-shift.css" />
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-inner">
+        <div class="brand-block">
+          <div class="brand-logo-pill">
+            <img src="logo.png" alt="Computing logo" class="brand-logo" />
+          </div>
+          <div class="brand-text">
+            DELTA Academies Trust
+            <span>GCSE Computer Science – Binary</span>
+          </div>
+        </div>
+
+        <!-- Shared nav bar -->
+        <nav class="main-nav">
+          <a href="index.html" class="nav-home">Home</a>
+          <a href="binary-addition.html" class="nav-addition">Binary addition</a>
+          <a href="denary-binary-hex.html" class="nav-conversion">Denary / Binary / Hex</a>
+          <a href="binary-shift.html" class="nav-shift active">Binary shifts</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="app-shell">
+        <!-- LEFT: controls + visual -->
+        <section aria-label="Binary shift input and visualisation">
+          <h2>1. Choose a value and shift</h2>
+
+          <div class="controls">
+            <div class="controls-grid">
+              <div>
+                <label for="startValue">Start value (denary)</label>
+                <input id="startValue" class="big-number" type="number" min="0" max="255" value="13" />
+
+                <div class="small-note">Range: 0 to 255 (8-bit unsigned).</div>
+              </div>
+
+              <div>
+  <label>Shift direction</label>
+
+  <div class="seg-toggle" role="tablist" aria-label="Shift direction">
+    <input type="radio" id="dirLeft" name="shiftDirection" value="left" checked>
+    <label for="dirLeft" class="seg-option" role="tab" aria-controls="shiftPanel">
+      Left shift (&laquo;)
+    </label>
+
+    <input type="radio" id="dirRight" name="shiftDirection" value="right">
+    <label for="dirRight" class="seg-option" role="tab" aria-controls="shiftPanel">
+      Right shift (&raquo;)
+    </label>
+
+    <span class="seg-indicator" aria-hidden="true"></span>
+  </div>
+
+  <div class="small-note">Left ≈ ×2, right ≈ ÷2.</div>
+</div>
+
+
+              <div>
+                <label for="shiftAmount">Shift amount (bits)</label>
+                <input id="shiftAmount" type="range" min="0" max="4" value="1" />
+                <div class="small-note">
+                  Shift by <strong><span id="shiftAmountLabel">1</span></strong> bit(s).
+                </div>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button type="button" class="btn-primary" id="btnApplyShift">
+                ▶ Apply shift
+              </button>
+              <button type="button" class="btn-secondary" id="btnResetShift">
+                🔄 Reset
+              </button>
+              <button type="button" class="btn-ghost" id="btnExample">
+                💡 Example (overflow / loss)
+              </button>
+            </div>
+          </div>
+
+          <h2>2. See the bits move</h2>
+
+          <div class="bit-panel-wrapper">
+            <div class="bit-panel shift-panel">
+
+              <!-- 8-bit headings -->
+<div class="bit-weights-wrapper">
+  <div class="row-label"></div>
+  <div class="bit-weights-row" id="bitWeightsRow"></div>
+</div>
+
+
+              <!-- Original + shifted rows -->
+              <div class="binary-display shift-display">
+
+                <!-- Original row -->
+                <div class="binary-row">
+                  <div class="row-label">Original</div>
+                  <div class="bits" id="rowOriginal"></div>
+                </div>
+
+                <!-- Shifted row with overflow/info pills -->
+                <div class="binary-row">
+  <div class="row-label">Shifted</div>
+  <div class="bits" id="rowShifted"></div>
+</div>
+
+<!-- NEW: status row under the shifted bits (doesn't affect bit alignment) -->
+<div class="shift-status-row" id="shiftStatus" style="display:none;">
+  <div class="shift-status-item" id="shiftOverflowItem" style="display:none;">
+    <span class="overflow-pill">Overflow</span>
+    <span class="shift-status-text">Bits lost on the left (MSB side)</span>
+  </div>
+
+  <div class="shift-status-item" id="shiftInfoLossItem" style="display:none;">
+    <span class="overflow-pill">Info loss</span>
+    <span class="shift-status-text">Bits lost on the right (LSB side)</span>
+  </div>
+</div>
+
+
+                <!-- Lost bits row -->
+                <div class="binary-row">
+                  <div class="row-label">Lost bits</div>
+                  <div class="bits" id="rowLost"></div>
+                </div>
+
+                <!-- Denary summary -->
+                <div class="shift-meta-row">
+                  <div>
+                    Denary:&nbsp;
+                    <strong><span id="startValueLabel">13</span></strong>
+                    →
+                    <strong><span id="resultValueLabel">26</span></strong>
+                  </div>
+                  <div id="shiftMathLabel">
+                    Approx: <strong>&times; 2<sup>1</sup></strong>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bottom buttons under the visual -->
+          <div class="button-row" style="margin-top:0.8rem;">
+            <button type="button" class="btn-primary" id="btnApplyShiftBottom">
+              ▶ Apply shift
+            </button>
+            <button type="button" class="btn-secondary" id="btnResetShiftBottom">
+              🔄 Reset
+            </button>
+            <button type="button" class="btn-ghost" id="btnExampleBottom">
+              💡 Example (overflow / loss)
+            </button>
+          </div>
+
+        </section>
+
+        <!-- RIGHT: explanation -->
+        <section aria-label="Explanation of binary shifts">
+          <h2>3. How this shift works</h2>
+          <div class="explanation-card">
+            <div class="step-header">
+              <div class="step-index" id="shiftModeLabel">
+                Mode: <strong>Left shift</strong>
+              </div>
+            </div>
+
+            <div class="explanation-main" id="shiftExplanationMain">
+              Choose a denary value, a direction (left or right) and a number of bits
+              to shift. This panel explains how the bits move, what happens to the
+              denary value, and when information is lost.
+            </div>
+
+            <div class="summary-panel" id="shiftSummaryPanel">
+              <div>
+                Binary:
+                <strong><span id="summaryBinaryOriginal">00001101</span></strong>
+                →
+                <strong><span id="summaryBinaryShifted">00011010</span></strong>
+              </div>
+              <div>
+                Denary:
+                <strong><span id="summaryDenaryOriginal">13</span></strong>
+                →
+                <strong><span id="summaryDenaryShifted">26</span></strong>
+              </div>
+              <div id="summaryShiftEffect">
+                Effect: <strong>Left shift by 1 ≈ &times;2</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      Binary shifts are shown for 8-bit unsigned values (0–255). Left shifts can overflow;
+      right shifts can lose information as bits fall off the right-hand side.
+    </footer>
+  </div>
+
+  <script src="binary-shift.js" defer></script>
+</body>
+</html>
